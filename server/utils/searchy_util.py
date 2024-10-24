@@ -1,6 +1,6 @@
 import requests
 
-def search_articles(input):
+def searchy(input, index):
     # URL для POST-запроса
     url = 'https://searchy-back.tcsgroup.io/v2/docs/search'
 
@@ -9,9 +9,7 @@ def search_articles(input):
         "index_type": "elasticsearch",
         "login": "m.tarasov",
         "project": "hakaton_ai_test",
-        "where": [
-            "opalescent-cuttlefish-1729268026"
-        ],
+        "where": index,
         "query": {
             "text": input
         },
@@ -28,7 +26,3 @@ def search_articles(input):
         return response.json()
     else:
         raise Exception(f'Ошибка: {response.status_code}, {response.text}')
-    
-result = search_articles('вклад')
-
-print(result.get('result', [])[0])

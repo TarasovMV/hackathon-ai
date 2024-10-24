@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 import shared_state
 from tinkoff.cloud.stt.v1 import stt_pb2_grpc, stt_pb2
-from auth_module import authorization_metadata
+from libs.auth import authorization_metadata
 
 
 load_dotenv()
@@ -13,6 +13,7 @@ load_dotenv()
 endpoint = os.environ.get("VOICEKIT_ENDPOINT") or "api.tinkoff.ai:443"
 api_key = os.environ["VOICEKIT_API_KEY"]
 secret_key = os.environ["VOICEKIT_SECRET_KEY"]
+
 
 def build_first_request(sample_rate_hertz, num_channels):
     request = stt_pb2.StreamingRecognizeRequest()
@@ -45,7 +46,7 @@ def print_streaming_recognition_responses(responses):
                 print('"' + alternative.transcript + '"')
                 shared_state.recognition_message = alternative.transcript
                 shared_state.recognition_data.append(alternative.transcript)
-                shared_state.sse_data = {"type": "chat", "message": alternative.transcript}
+                shared_state.sse_data.set({"type": "chat", "message": alternative.transcript})
             print("------------------")
 
 def voice_recognition():
