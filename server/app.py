@@ -57,10 +57,6 @@ def sse_stream():
                     message = f"data: {json.dumps(shared_state.sse_data.get())}\n\n"
                     last_sent_data = shared_state.sse_data.get()  # Обновляем последние отправленные данные
                     yield message  # Генерация события для клиента
-                # else:
-                    # Пустое событие для поддержания активного соединения
-                    # yield ":\n\n"
-                # time.sleep(0.1)  # Ожидание перед отправкой нового сообщения
 
     return Response(stream_with_context(event_stream()), content_type='text/event-stream')
 
