@@ -2,7 +2,7 @@ import time
 import shared_state
 
 from utils.proxy_util import proxy_ai
-from utils.searchy_util import searchy
+from prompts.llm_prompt import llm_prompt
 
 
 job_timeout = 30 # Запросы каждые 30 секунд
@@ -14,7 +14,9 @@ def llm_job():
             try:
                 start_time = time.time()  # Замер времени начала выполнения блока
 
-                result = proxy_ai(shared_state.recognition_data)
+                prompt = ", ".join(shared_state.recognition_data)
+
+                result = proxy_ai(prompt, llm_prompt)
                 shared_state.sse_data.set({"type": "llm", "data": result})
 
                 execution_time = time.time() - start_time  # Время выполнения блока
@@ -25,5 +27,6 @@ def llm_job():
                     time.sleep(sleep_time)
             except Exception as e:
                 print(f"Error articles_job: {e}")
+                time.sleep(job_timeout)
         else:
             time.sleep(job_timeout)  # Если данных нет, ждем полный таймаут

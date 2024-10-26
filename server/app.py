@@ -8,15 +8,15 @@ from flask_cors import CORS
 
 import shared_state
 
-# from modules.voicekit_module import voice_recognition
-# from modules.articles_module import articles_job
-# from modules.procedures_module import procedures_job
-# from modules.llm_module import llm_job
+from modules.voicekit_module import voice_recognition
+from modules.articles_module import articles_job
+from modules.procedures_module import procedures_job
+from modules.llm_module import llm_job
 
-from modules.mocks.voicekit_module import voice_recognition
-from modules.mocks.articles_module import articles_job
-from modules.mocks.procedures_module import procedures_job
-from modules.mocks.llm_module import llm_job
+# from modules.mocks.voicekit_module import voice_recognition
+# from modules.mocks.articles_module import articles_job
+# from modules.mocks.procedures_module import procedures_job
+# from modules.mocks.llm_module import llm_job
 
 app = Flask(__name__)
 CORS(app)
@@ -66,8 +66,8 @@ def sse_stream():
 
 # Запуск потоков для gRPC и HTTP запросов к LLM
 if __name__ == '__main__':    
-    # voicekit_thread = threading.Thread(target=voice_recognition)
-    app_threads['voicekit_thread'] = threading.Thread(target=lambda: asyncio.run(voice_recognition()))
+    # app_threads['voicekit_thread'] = threading.Thread(target=lambda: asyncio.run(voice_recognition()))
+    app_threads['voicekit_thread'] = threading.Thread(target=voice_recognition)
     app_threads['articles_thread'] = threading.Thread(target=articles_job)
     app_threads['procedures_thread'] = threading.Thread(target=procedures_job)
     app_threads['llm_thread'] = threading.Thread(target=llm_job)

@@ -1,5 +1,6 @@
 import grpc
 import os
+import time
 from mutagen.mp3 import MP3
 from dotenv import load_dotenv
 
@@ -26,12 +27,16 @@ def generate_requests():
     try:
         fname = "test.mp3"
         info = MP3(fname).info
+        frame_duration = 4096 / info.bitrate * 8  # Время в секундах на 4096 байт
+
         yield build_first_request(info.sample_rate, info.channels)
+
         with open(fname, "rb") as f:
-            for data in iter(lambda:f.read(4096), b''): # Send 4096 bytes at a time
+            for data in iter(lambda: f.read(4096), b''):
                 request = stt_pb2.StreamingRecognizeRequest()
                 request.audio_content = data
                 yield request
+                time.sleep(frame_duration)
     except Exception as e:
         print("Got exception in generate_requests", e)
         raise

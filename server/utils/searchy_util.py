@@ -8,12 +8,12 @@ def searchy(input, index):
     data = {
         "index_type": "elasticsearch",
         "login": "m.tarasov",
-        "project": "hakaton_ai_test",
+        "project": "hakaton_ai",
         "where": index,
         "query": {
             "text": input
         },
-        "top_n": 5,
+        "top_n": 3,
         "threshold": 0.5,
         "include_embedding": False
     }
