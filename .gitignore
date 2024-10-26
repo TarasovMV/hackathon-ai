@@ -162,7 +162,7 @@ cython_debug/
 .DS_Store
 
 # sensetive data
-test.mp3
+*.mp3
 *.webm
 *.xlsx
 *.csv
