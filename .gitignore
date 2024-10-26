@@ -160,3 +160,9 @@ cython_debug/
 #.idea/
 
 .DS_Store
+
+# sensetive data
+test.mp3
+*.webm
+*.xlsx
+*.csv
